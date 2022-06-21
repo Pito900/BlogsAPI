@@ -6,7 +6,14 @@ const UserSchema = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     image: DataTypes.STRING
   });
+
+  UserTable.associate = (models) => {
+    UserTable.hasMany(models.BlogPost, //definindo a associação hasMany da tabela users com a blogpost
+      { foreignKey: 'userId', as: 'blogposts'}) 
+  }
+
   return UserTable;
 };
+
 
 module.exports = UserSchema;
