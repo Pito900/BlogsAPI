@@ -12,7 +12,23 @@ const createUser = async (reqBody) => {
     return newUser;
 };
 
+const getAllUsers = async () => {
+    const usersAllData = await User.findAll();
+    const usersWithoutPassword = usersAllData.map((item) => {
+        const obj = {
+            id: item.id,
+            displayName: item.displayName,
+            email: item.email,
+            image: item.image,
+        };
+        return obj;
+    });
+
+    return usersWithoutPassword;
+};
+
 module.exports = {
     createUser,
     userAlreadyReg,
+    getAllUsers,
 };

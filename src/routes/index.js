@@ -1,4 +1,5 @@
 const express = require('express');
+const tokenValidate = require('../middlewares/tokenValidation');
 const loginValidate = require('../middlewares/loginValidation');
 const userValidation = require('../middlewares/userValidation');
 
@@ -8,9 +9,12 @@ router.use('/login', require('../controllers/loginController').route);
 router.use('/user', require('../controllers/userController').route);
 
 const { loginController } = require('../controllers/loginController');
-const { creatUserController } = require('../controllers/userController');
+const { 
+    creatUserController, 
+    getAllUserController,
+} = require('../controllers/userController');
 
 router.post('/login', loginValidate.loginValidationBody, loginController);
 router.post('/user', userValidation.bodyUserValidation, creatUserController);
-
+router.get('/user', tokenValidate.validateToken, getAllUserController);
 module.exports = router;
