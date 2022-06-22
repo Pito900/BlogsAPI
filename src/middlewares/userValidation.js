@@ -1,3 +1,15 @@
+const { getAllUsers } = require('../services/userService');
+
+const userExistValidation = async (req, res, next) => {
+  const { id } = req.params;
+  const allUsers = await getAllUsers();
+  const [userExist] = allUsers.filter((item) => item.id === Number(id));
+  if (!userExist) {
+      return res.status(404).json({ message: 'User does not exist' });
+  }
+  next();
+};
+
 const bodyUserValidation = (req, res, next) => {
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regexEmail.test(req.body.email)) {
@@ -17,5 +29,6 @@ const bodyUserValidation = (req, res, next) => {
 };
 
 module.exports = {
+ userExistValidation,
  bodyUserValidation,
 }; 
