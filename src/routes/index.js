@@ -15,7 +15,10 @@ const {
     getAllUserController,
     getUserByIdController,
 } = require('../controllers/userController');
-const { createCategoryController } = require('../controllers/categoryController');
+const { 
+    createCategoryController, 
+    getAllCategoriesController,
+} = require('../controllers/categoryController');
 
 router.post('/login', loginValidate.loginValidationBody, loginController);
 router.post('/user', userValidation.bodyUserValidation, creatUserController);
@@ -23,4 +26,5 @@ router.get('/user', tokenValidate.validateToken, getAllUserController);
 router.get('/user/:id', userValidation.userExistValidation, 
 tokenValidate.validateToken, getUserByIdController);
 router.post('/categories', tokenValidate.validateToken, createCategoryController);
+router.get('/categories', tokenValidate.validateToken, getAllCategoriesController);
 module.exports = router;

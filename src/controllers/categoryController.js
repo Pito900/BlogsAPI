@@ -1,5 +1,5 @@
 const express = require('express');
-const { createCategory } = require('../services/categoryService');
+const { createCategory, getAllCategories } = require('../services/categoryService');
 
 const route = express.Router();
 
@@ -16,7 +16,17 @@ const createCategoryController = async (req, res) => {
     } 
 };
 
+const getAllCategoriesController = async (_req, res) => {
+    try {
+        const allCategories = await getAllCategories();
+        return res.status(200).json(allCategories);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    } 
+};
+
 module.exports = {
     route,
     createCategoryController,
+    getAllCategoriesController,
 };
