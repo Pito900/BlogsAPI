@@ -1,4 +1,5 @@
 const { User } = require('../database/models');
+const { decodingToken } = require('../jwt/JWT');
 
 const userAlreadyReg = (reqBody) => User.findOne({ where: { email: reqBody.email } });// essa função acha um email na base de dados;
 
@@ -32,9 +33,17 @@ const getUserById = async (id) => {
     return userNoPassword(userData);
 };
 
+const gettingIdFromToken = async (token) => { 
+    const { email } = decodingToken(token);
+    const allUsers = await getAllUsers();
+    const { id } = allUsers.filter((user) => user.email === email)[0];
+    return id;
+}; // essa função acha o id do usuário, quando temos o token
+
 module.exports = {
     createUser,
     userAlreadyReg,
     getAllUsers,
     getUserById,
+    gettingIdFromToken,
 };
