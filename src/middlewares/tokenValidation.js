@@ -1,6 +1,6 @@
 const { tokenVerification } = require('../jwt/JWT');
 
- const validateToken = (req, res, next) => {
+ const validateToken = async (req, res, next) => {
     const { authorization } = req.headers;
      const result = tokenVerification(authorization);
      if (result === 'Token not found') {
