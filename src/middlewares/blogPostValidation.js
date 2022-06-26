@@ -39,13 +39,15 @@ const { decodingToken } = require('../jwt/JWT');
      next();
  };
 
- const blogPostUpdateUserValidation = async (req, res, next) => { // validamos aqui se o usuário é o mesmo q mudou o post
+ const blogPostTokenUserValidation = async (req, res, next) => { // validamos aqui se o usuário é o mesmo q mudou o post
     const { id } = req.params;
     const { authorization } = req.headers;
     const { email } = decodingToken(authorization); // aqui usei o token do loginPost no insomnia
     const allUsers = await getAllUsers();
+    const allBlogPosts = await getAllBlogPost();
+    const idUserFromBlogPost = allBlogPosts.filter((post) => post.id === Number(id))[0];
     const userData = allUsers.filter((user) => user.email === email)[0];
-    if (userData.id !== Number(id)) {
+    if (userData.id !== idUserFromBlogPost.userId) {
         return res.status(401).json({ message: 'Unauthorized user' });
     }
      next();
@@ -56,5 +58,5 @@ module.exports = {
     blogPostCategoryValidation,
     blogPostByIdValidation,
     blogPostUpdateBodyValidation,
-    blogPostUpdateUserValidation,
+    blogPostTokenUserValidation,
 }; 

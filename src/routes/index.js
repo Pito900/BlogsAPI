@@ -27,6 +27,7 @@ const {
     getAllBlogPostController,
     getBlogPostByIdController,
     updateBlogPostController,
+    deleteBlogPostController,
  } = require('../controllers/blogPostController');
 
 router.post('/login', loginValidate.loginValidationBody, loginController);
@@ -48,7 +49,11 @@ postBlogValidation.blogPostByIdValidation,
  getBlogPostByIdController);
  router.put('/post/:id', tokenValidate.validateToken,
 postBlogValidation.blogPostUpdateBodyValidation,
-postBlogValidation.blogPostUpdateUserValidation,
+postBlogValidation.blogPostTokenUserValidation,
 updateBlogPostController);
+router.delete('/post/:id', tokenValidate.validateToken,
+postBlogValidation.blogPostByIdValidation,
+postBlogValidation.blogPostTokenUserValidation,
+deleteBlogPostController);
 
 module.exports = router;

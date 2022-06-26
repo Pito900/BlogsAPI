@@ -1,9 +1,10 @@
 const express = require('express');
 const { 
     createBlogPost,
-     getAllBlogPost, 
-     getBlogPostById, 
-     updateBlogPost,
+    getAllBlogPost, 
+    getBlogPostById, 
+    updateBlogPost,
+    deleteBlogPost,
  } = require('../services/blogPostService');
 
 const route = express.Router();
@@ -45,10 +46,21 @@ const updateBlogPostController = async (req, res) => {
     } 
 };
 
+const deleteBlogPostController = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await deleteBlogPost(id);
+        return res.status(204).json();
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    } 
+};
+
 module.exports = {
     route,
     createBlogPostController,
     getAllBlogPostController,
     getBlogPostByIdController,
     updateBlogPostController,
+    deleteBlogPostController,
 };
