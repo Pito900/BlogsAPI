@@ -6,7 +6,7 @@ const PostCategorySchema = (sequelize, DataTypes) => {
     },
     { timestamps: false }
   );    
-  PostCategoryTable.associate = (models) => { // dedsta forma fazemos a associação de N:N
+  PostCategoryTable.associate = (models) => { // desta forma fazemos a associação de N:N
         models.Category.belongsToMany(models.BlogPost, { 
         as: 'blogpost',
         foreignKey: 'categoryId',

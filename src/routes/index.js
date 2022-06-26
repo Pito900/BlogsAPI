@@ -22,7 +22,10 @@ const {
     getAllCategoriesController,
 } = require('../controllers/categoryController');
 
-const { createBlogPostController } = require('../controllers/blogPostController');
+const { 
+    createBlogPostController,
+    getAllBlogPostController,
+ } = require('../controllers/blogPostController');
 
 router.post('/login', loginValidate.loginValidationBody, loginController);
 router.post('/user', userValidation.bodyUserValidation, creatUserController);
@@ -36,5 +39,7 @@ router.post('/post', tokenValidate.validateToken,
 postBlogValidation.blogPostBodyCompleteValidation,
 postBlogValidation.blogPostCategoryValidation, 
 createBlogPostController);
+
+router.get('/post', tokenValidate.validateToken, getAllBlogPostController);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { BlogPost } = require('../database/models');
+const { BlogPost, User, Category } = require('../database/models');
 const { gettingIdFromToken } = require('./userService');
 
 const config = require('../database/config/config');
@@ -24,6 +24,17 @@ const createBlogPost = async (req) => {
         return result;
 };
 
+const getAllBlogPost = async () => {
+    const allBlogPost = await BlogPost.findAll({
+        include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } }, // p as: user tem q ter o mesmo nome do associate!
+            { model: Category, as: 'categories' },
+        ],
+    });
+    return allBlogPost;
+};
+
 module.exports = {
     createBlogPost,
+    getAllBlogPost,
 };

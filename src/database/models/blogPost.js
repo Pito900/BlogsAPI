@@ -7,9 +7,10 @@ const BlogPostSchema = (sequelize, DataTypes) => {
     published: DataTypes.DATE,
     updated: DataTypes.DATE
   }, { timestamps: false });
+
   BlogPostTable.associate = (models) => {
     BlogPostTable.belongsTo(models.User, //Essa tabela possui uma ForeignKey que pegamos do model User, colocamos essa na nossa tabela como
-      { foreignKey: 'userId', as: 'users'}) //userId e vamos chamar ele de users.
+      { foreignKey: 'userId', as: 'user'}) //userId e vamos chamar ele de users.
   }
 
   return BlogPostTable;

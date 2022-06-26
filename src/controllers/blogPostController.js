@@ -1,5 +1,5 @@
 const express = require('express');
-const { createBlogPost } = require('../services/blogPostService');
+const { createBlogPost, getAllBlogPost } = require('../services/blogPostService');
 
 const route = express.Router();
 
@@ -12,7 +12,17 @@ const createBlogPostController = async (req, res) => {
     } 
 };
 
+const getAllBlogPostController = async (_req, res) => {
+    try {
+        const allBlogPost = await getAllBlogPost();
+        return res.status(200).json(allBlogPost);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    } 
+};
+
 module.exports = {
     route,
     createBlogPostController,
+    getAllBlogPostController,
 };
