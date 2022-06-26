@@ -1,4 +1,5 @@
 const { getAllCategories } = require('../services/categoryService');
+const { getAllBlogPost } = require('../services/blogPostService');
  
  const blogPostBodyCompleteValidation = (req, res, next) => {
     const { title, content, categoryIds } = req.body;
@@ -18,7 +19,18 @@ const { getAllCategories } = require('../services/categoryService');
      next();
  };
 
+ const blogPostByIdValidation = async (req, res, next) => {
+    const { id } = req.params;
+    const allBlogPost = await getAllBlogPost();
+    const Validation = allBlogPost.some((item) => item.id === Number(id));
+   if (Validation === false) {
+       return res.status(404).json({ message: 'Post does not exist' });
+   }
+       next();
+   };
+
 module.exports = { 
     blogPostBodyCompleteValidation,
-    blogPostCategoryValidation, 
+    blogPostCategoryValidation,
+    blogPostByIdValidation,
 }; 
