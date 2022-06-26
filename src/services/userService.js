@@ -40,10 +40,20 @@ const gettingIdFromToken = async (token) => {
     return id;
 }; // essa função acha o id do usuário, quando temos o token
 
+const deleteUser = async (token) => {
+    const { email } = decodingToken(token);
+    const allUsers = await getAllUsers();
+    const { id } = allUsers.filter((user) => user.email === email)[0]; // até aqui só estamos bucando o id dentro do token
+    await User.destroy(
+        { where: { id } },
+    );
+};
+
 module.exports = {
     createUser,
     userAlreadyReg,
     getAllUsers,
     getUserById,
     gettingIdFromToken,
+    deleteUser,
 };

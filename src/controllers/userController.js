@@ -1,5 +1,10 @@
 const express = require('express');
-const { createUser, userAlreadyReg, getAllUsers, getUserById } = require('../services/userService');
+const { createUser,
+    userAlreadyReg, 
+    getAllUsers, 
+    getUserById, 
+    deleteUser,
+ } = require('../services/userService');
 const { generateToken } = require('../jwt/JWT');
 
 const creatUserController = async (req, res) => {
@@ -35,6 +40,16 @@ const getUserByIdController = async (req, res) => {
       }
 };
 
+const deleteUserController = async (req, res) => {
+    try {
+        const { authorization } = req.headers;
+        await deleteUser(authorization);
+        return res.status(204).json();
+      } catch (error) {
+        return res.status(500).json({ message: error.message });
+      }
+};
+
 const route = express.Router();
 
 module.exports = {
@@ -42,4 +57,5 @@ module.exports = {
     creatUserController,
     getAllUserController,
     getUserByIdController,
+    deleteUserController,
 };

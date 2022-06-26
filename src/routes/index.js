@@ -16,6 +16,7 @@ const {
     creatUserController, 
     getAllUserController,
     getUserByIdController,
+    deleteUserController,
 } = require('../controllers/userController');
 const { 
     createCategoryController, 
@@ -35,6 +36,10 @@ router.post('/user', userValidation.bodyUserValidation, creatUserController);
 router.get('/user', tokenValidate.validateToken, getAllUserController);
 router.get('/user/:id', userValidation.userExistValidation, 
 tokenValidate.validateToken, getUserByIdController);
+
+router.delete('/user/me', 
+tokenValidate.validateToken, deleteUserController);
+
 router.post('/categories', tokenValidate.validateToken, createCategoryController);
 router.get('/categories', tokenValidate.validateToken, getAllCategoriesController);
 
