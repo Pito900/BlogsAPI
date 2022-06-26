@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+
+const { Op } = Sequelize; // operadores
 const { BlogPost, User, Category } = require('../database/models');
 const { gettingIdFromToken } = require('./userService');
 
@@ -63,10 +65,27 @@ const deleteBlogPost = async (id) => {
     );
 };
 
+const searchBlogPost = async (q) => { // ver esse link...https://www.codegrepper.com/code-examples/javascript/sequelize+like+search
+    const allBlogPostIncludingQ = await BlogPost.findAll({ 
+        where: {
+            [Op.or]: [
+                { title: { [Op.like]: `%${q}%` } },
+                { content: { [Op.like]: `%${q}%` },
+            }],
+        },
+        include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } }, // p as: user tem q ter o mesmo nome do associate!
+            { model: Category, as: 'categories' },
+        ],
+    }); 
+    return allBlogPostIncludingQ;
+};
+
 module.exports = {
     createBlogPost,
     getAllBlogPost,
     getBlogPostById,
     updateBlogPost,
     deleteBlogPost,
+    searchBlogPost,
 };

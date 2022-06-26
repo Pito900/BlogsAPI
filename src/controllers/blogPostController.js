@@ -5,6 +5,7 @@ const {
     getBlogPostById, 
     updateBlogPost,
     deleteBlogPost,
+    searchBlogPost,
  } = require('../services/blogPostService');
 
 const route = express.Router();
@@ -56,6 +57,23 @@ const deleteBlogPostController = async (req, res) => {
     } 
 };
 
+const searchBlogPostController = async (req, res) => {
+    const { q } = req.query;
+    if (!q) {
+        const allBlogPost = await getAllBlogPost();
+        return res.status(200).json(allBlogPost);
+     }
+    try {
+        const resultByContent = await searchBlogPost(q);
+        if (!resultByContent) {
+            return res.status(200).json([]);
+        }
+        return res.status(200).json(resultByContent);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    } 
+};
+
 module.exports = {
     route,
     createBlogPostController,
@@ -63,4 +81,5 @@ module.exports = {
     getBlogPostByIdController,
     updateBlogPostController,
     deleteBlogPostController,
+    searchBlogPostController,
 };

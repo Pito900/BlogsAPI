@@ -29,6 +29,7 @@ const {
     getBlogPostByIdController,
     updateBlogPostController,
     deleteBlogPostController,
+    searchBlogPostController,
  } = require('../controllers/blogPostController');
 
 router.post('/login', loginValidate.loginValidationBody, loginController);
@@ -49,6 +50,8 @@ postBlogValidation.blogPostCategoryValidation,
 createBlogPostController);
 
 router.get('/post', tokenValidate.validateToken, getAllBlogPostController);
+router.get('/post/search', tokenValidate.validateToken, searchBlogPostController);
+
 router.get('/post/:id', tokenValidate.validateToken,
 postBlogValidation.blogPostByIdValidation,
  getBlogPostByIdController);
