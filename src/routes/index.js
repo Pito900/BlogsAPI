@@ -26,6 +26,7 @@ const {
     createBlogPostController,
     getAllBlogPostController,
     getBlogPostByIdController,
+    updateBlogPostController,
  } = require('../controllers/blogPostController');
 
 router.post('/login', loginValidate.loginValidationBody, loginController);
@@ -45,5 +46,9 @@ router.get('/post', tokenValidate.validateToken, getAllBlogPostController);
 router.get('/post/:id', tokenValidate.validateToken,
 postBlogValidation.blogPostByIdValidation,
  getBlogPostByIdController);
+ router.put('/post/:id', tokenValidate.validateToken,
+postBlogValidation.blogPostUpdateBodyValidation,
+postBlogValidation.blogPostUpdateUserValidation,
+updateBlogPostController);
 
 module.exports = router;
